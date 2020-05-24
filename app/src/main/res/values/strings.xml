@@ -2,4 +2,7 @@
     <string name="app_name">Word Grope</string>
     <string name="platinum">Platinum Innovations and TechHood</string>
     <string name="tag">Letters for the WORD</string>
+    <string name="title_activity_results">ResultsActivity</string>
+    <string name="recent">Recent</string>
+    <string name="favourites">Favourites</string>
 </resources>

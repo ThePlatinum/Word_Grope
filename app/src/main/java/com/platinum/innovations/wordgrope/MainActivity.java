@@ -6,9 +6,13 @@ import android.os.Bundle;
 
 public class MainActivity extends AppCompatActivity {
 
+    private ActicityMainBinding bindingMain;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        bindingMain = ResultProfileBinding.inflate(getLayoutInflater());
+        View view = bindingMain.getRoot();
+        setContentView(view);
     }
 }

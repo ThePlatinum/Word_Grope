@@ -17,9 +17,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    viewBinding{
-        enable = true
-    }
+
+    //viewBinding {
+        //enabled = true
+    //}
 }
 
 dependencies {

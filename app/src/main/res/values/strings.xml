@@ -5,4 +5,5 @@
     <string name="title_activity_results">ResultsActivity</string>
     <string name="recent">Recent</string>
     <string name="favourites">Favourites</string>
+    <string name="logo">logo</string>
 </resources>

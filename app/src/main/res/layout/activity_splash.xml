@@ -7,15 +7,16 @@
     android:background="#6BAD1457"
     tools:context=".Splash">
 
-    <TextView
-        android:id="@+id/devName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/platinum"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="384dp"
+        android:layout_height="388dp"
+        android:src="@mipmap/ic_launcher_foreground"
+        app:layout_constraintBottom_toTopOf="@+id/tag"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tag" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/logo"/>
 
     <TextView
         android:id="@+id/tag"
@@ -27,16 +28,29 @@
         android:layout_marginEnd="2dp"
         android:layout_marginRight="2dp"
         android:gravity="center"
-        android:padding="2dp"
-        android:paddingLeft="2dp"
-        android:paddingTop="2dp"
-        android:paddingRight="2dp"
-        android:paddingBottom="2dp"
+        app:layout_constraintBottom_toTopOf="@id/devName"
         android:text="@string/tag"
         android:textSize="@android:dimen/app_icon_size"
         android:typeface="serif"
         app:autoSizeMaxTextSize="@android:dimen/dialog_min_width_minor"
         app:autoSizeMinTextSize="@android:dimen/dialog_min_width_minor"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/devName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/platinum"
+        android:textStyle="italic"
+        android:typeface="monospace"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="503dp" />
+        android:layout_marginStart="2dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginRight="2dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

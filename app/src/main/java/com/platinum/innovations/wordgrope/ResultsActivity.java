@@ -8,6 +8,7 @@ import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.View;
+import android.widget.Toast;
 
 public class ResultsActivity extends AppCompatActivity {
 
@@ -15,6 +16,10 @@ public class ResultsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_results);
+
+        String search = getIntent().getStringExtra("Searched");
+        String query = "nothing yet";
+        Toast.makeText(ResultsActivity.this, query, Toast.LENGTH_LONG).show();
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {

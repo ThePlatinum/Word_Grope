@@ -28,12 +28,10 @@
         android:layout_marginEnd="2dp"
         android:layout_marginRight="2dp"
         android:gravity="center"
-        app:layout_constraintBottom_toTopOf="@id/devName"
         android:text="@string/tag"
-        android:textSize="@android:dimen/app_icon_size"
+        android:textSize="55sp"
         android:typeface="serif"
-        app:autoSizeMaxTextSize="@android:dimen/dialog_min_width_minor"
-        app:autoSizeMinTextSize="@android:dimen/dialog_min_width_minor"
+        app:layout_constraintBottom_toTopOf="@id/devName"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView

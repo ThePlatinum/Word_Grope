@@ -20,6 +20,7 @@ public class ResultsActivity extends AppCompatActivity {
         String search = getIntent().getStringExtra("Searched");
         String query = "nothing yet";
         Toast.makeText(ResultsActivity.this, query, Toast.LENGTH_LONG).show();
+        //TODO: Remove the toast and use the sreach string for the real work
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {

@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.SearchView;
-import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
@@ -14,9 +13,10 @@ import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 
+
 public class MainActivity extends AppCompatActivity {
 
-    // private ActicityMainBinding bindingMain;
+    // private ActivityMainBinding bindingMain;
     SearchView searchView;
     AdView mAdView;
 
@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         //bindingMain = ResultProfileBinding.inflate(getLayoutInflater());
         //View view = bindingMain.getRoot();
+        //TODO: Update Android Studio and use ViewBinding
         setContentView(R.layout.activity_main);
 
         MobileAds.initialize(this, new OnInitializationCompleteListener() {

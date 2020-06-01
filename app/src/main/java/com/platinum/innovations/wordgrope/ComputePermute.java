@@ -11,20 +11,12 @@ class ComputePermute {
         return String.valueOf(b);
     }
 
-    public static void main(String[] args)
-    {
-        String str = "ABCEFG";
-        int len = str.length();
-        //System.out.println("All the permutations of the string are: ");
-        generatePermutation(str, 0, len);
-    }
-
     //Function for generating different permutations of the string
-    private static void generatePermutation(String str, int start, int end)
+    static void generatePermutation(String str, int start, int end)
     {
         //Prints the permutations
         if (start == end-1) {
-            //System.out.println(str);
+            returns(str);
             //TODO: Create inflater for a list view here
         }
         else
@@ -39,5 +31,9 @@ class ComputePermute {
                 str = swapString(str,start,i);
             }
         }
+    }
+
+    private static void returns(String str) {
+
     }
 }

@@ -10,45 +10,41 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-class ResultsAdapter extends RecyclerView.Adapter {
+class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.ViewHolder> {
 
-    private String[] mDataset;
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        // each data item is just a string in this case
+        private TextView textView;
 
-    ResultsAdapter(String[] Dataset) {
-        mDataset = Dataset;
+        public ViewHolder(View itemView) {
+            super(itemView);
+            textView = itemView.findViewById(R.id.results_recycler);
+        }
     }
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder {
-        // each data item is just a string in this case
-        TextView textView;
-        MyViewHolder(View v) {
-            super(v);
-            textView = v.findViewById(R.id.results_recycler);
-        }
+    private List<Dataset> mDataset;
+
+    public ResultsAdapter(List<Dataset> mDataset) {
+        this.mDataset = mDataset;
     }
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ResultsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        View v = (View)LayoutInflater.from(parent.getContext()).inflate(R.layout.results_card,parent,false);
 
-        // Inflate the custom layout
-        View wordView = inflater.inflate(R.layout.results_card, parent, false);
-
-        // Return a new holder instance
-        return new MyViewHolder(wordView);
+        return new ViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        String dataset = mDataset[position];
-        TextView textView = (TextView) holder.itemView;
-        textView.setText(dataset);
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        Dataset dataset = mDataset.get(position);
+        holder.textView.setText(dataset.getmWord());
     }
 
     @Override
     public int getItemCount() {
-        return mDataset.length;
+        return mDataset.size();
     }
 }

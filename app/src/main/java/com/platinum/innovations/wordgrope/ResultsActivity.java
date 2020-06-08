@@ -1,7 +1,11 @@
 package com.platinum.innovations.wordgrope;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -11,38 +15,50 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import static com.platinum.innovations.wordgrope.ComputePermute.generatePermutation;
+import static java.lang.Boolean.TRUE;
 
 public class ResultsActivity extends AppCompatActivity {
 
-    public String[] dataset;
+    List<Dataset> dataset = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_results);
 
+        TextView textView = findViewById(R.id.searched_text);
+
+        RecyclerView recyclerView = findViewById(R.id.results_recycler);
+        ProgressBar progressBar = findViewById(R.id.progressBar);
+        recyclerView.setHasFixedSize(true);
+
         String searched = getIntent().getStringExtra("SearchedText");
+        textView.setText(searched);
 
         assert searched != null;
         int len = searched.length();
-        //generatePermutation(searched, 0, len);
+        //Todo: Use a loader
 
-        RecyclerView recyclerView = findViewById(R.id.results_recycler);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            progressBar.setProgress(70,TRUE);
+        }
 
-        // use this setting to improve performance if you know that changes
-        // in content do not change the layout size of the RecyclerView
-        recyclerView.setHasFixedSize(true);
+        //Check
+        progressBar.setVisibility(View.VISIBLE);
 
-        // use a linear layout manager
+        generatePermutation(searched, 0, len);
+
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        dataset = new String[]{"All", "LAL", "THIS"};
         RecyclerView.Adapter mAdapter = new ResultsAdapter(dataset);
+        mAdapter.notifyDataSetChanged();
         recyclerView.setAdapter(mAdapter);
 
+        //Check
+        progressBar.setVisibility(View.INVISIBLE);
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -52,5 +68,39 @@ public class ResultsActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+    }
+
+    //Function for swapping the characters at position I with character at position j
+
+    List<Dataset> mDataset = new ArrayList<>();
+
+    private static String swapString(String a, int i, int j) {
+        char[] b =a.toCharArray();
+        char ch;
+        ch = b[i];
+        b[i] = b[j];
+        b[j] = ch;
+        return String.valueOf(b);
+    }
+
+    //Function for generating different permutations of the string
+    void generatePermutation(String strr, int start, int end)
+    {
+        //Prints the permutations
+        Dataset dataset = new Dataset(strr);
+        mDataset.add(dataset);
+
+        Toast.makeText(this.getApplicationContext(),strr,Toast.LENGTH_SHORT).show();
+
+            for (int i = start; i < end; i++)
+            {
+                //Swapping the string by fixing a character
+                strr = swapString(strr,start,i);
+                //Recursively calling function generatePermutation() for rest of the characters
+                generatePermutation(strr,start+1,end);
+                //Backtracking and swapping the characters again.
+                strr = swapString(strr,start,i);
+            }
+
     }
 }

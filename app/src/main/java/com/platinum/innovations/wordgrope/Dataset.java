@@ -3,9 +3,9 @@ package com.platinum.innovations.wordgrope;
 import java.util.ArrayList;
 
 class Dataset {
-    private String mWord;
+    String mWord;
 
-    private Dataset(String word) {
+    Dataset(String word) {
         mWord = word;
     }
 
@@ -13,6 +13,11 @@ class Dataset {
         return mWord;
     }
 
+    public void setmWord(String mWord) {
+        this.mWord = mWord;
+    }
+
+    // Here out
     static ArrayList<Dataset> createContactsList(String theWord) {
         ArrayList<Dataset> datasets = new ArrayList<>();
 

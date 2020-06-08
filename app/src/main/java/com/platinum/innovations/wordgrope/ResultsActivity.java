@@ -1,9 +1,10 @@
 package com.platinum.innovations.wordgrope;
 
-import android.os.Build;
+import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,38 +18,28 @@ import com.google.android.material.snackbar.Snackbar;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.lang.Boolean.TRUE;
-
 public class ResultsActivity extends AppCompatActivity {
 
     List<Dataset> dataset = new ArrayList<>();
+    ProgressDialog progressDialog;
+    TextView textView;
+    String searched;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_results);
 
-        TextView textView = findViewById(R.id.searched_text);
-
+        textView = findViewById(R.id.searched_text);
         RecyclerView recyclerView = findViewById(R.id.results_recycler);
-        ProgressBar progressBar = findViewById(R.id.progressBar);
-        recyclerView.setHasFixedSize(true);
 
-        String searched = getIntent().getStringExtra("SearchedText");
+        searched = getIntent().getStringExtra("SearchedText");
         textView.setText(searched);
 
-        assert searched != null;
-        int len = searched.length();
-        //Todo: Use a loader
+        AsyncTaskUsed asyncTask = new AsyncTaskUsed();
+        asyncTask.execute(searched);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            progressBar.setProgress(70,TRUE);
-        }
-
-        //Check
-        progressBar.setVisibility(View.VISIBLE);
-
-        generatePermutation(searched, 0, len);
+        recyclerView.setHasFixedSize(true);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -56,9 +47,6 @@ public class ResultsActivity extends AppCompatActivity {
         RecyclerView.Adapter mAdapter = new ResultsAdapter(dataset);
         mAdapter.notifyDataSetChanged();
         recyclerView.setAdapter(mAdapter);
-
-        //Check
-        progressBar.setVisibility(View.INVISIBLE);
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -84,23 +72,52 @@ public class ResultsActivity extends AppCompatActivity {
     }
 
     //Function for generating different permutations of the string
-    void generatePermutation(String strr, int start, int end)
+    void generatePermutation(String str, int start, int end)
     {
         //Prints the permutations
-        Dataset dataset = new Dataset(strr);
+        Dataset dataset = new Dataset(str);
         mDataset.add(dataset);
 
-        Toast.makeText(this.getApplicationContext(),strr,Toast.LENGTH_SHORT).show();
+        Toast.makeText(this.getApplicationContext(),str,Toast.LENGTH_SHORT).show();
 
             for (int i = start; i < end; i++)
             {
                 //Swapping the string by fixing a character
-                strr = swapString(strr,start,i);
+                str = swapString(str,start,i);
                 //Recursively calling function generatePermutation() for rest of the characters
-                generatePermutation(strr,start+1,end);
+                generatePermutation(str,start+1,end);
                 //Backtracking and swapping the characters again.
-                strr = swapString(strr,start,i);
+                str = swapString(str,start,i);
             }
 
+    }
+    @SuppressLint("StaticFieldLeak")
+    private class AsyncTaskUsed extends AsyncTask<String, String, String> {
+
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();progressDialog = new ProgressDialog(ResultsActivity.this);
+            progressDialog.setMessage("Loading..."); // Setting Message
+            progressDialog.setTitle("Getting the Words..."); // Setting Title
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER); // Progress Dialog Style Spinner
+            progressDialog.setCancelable(false);
+            progressDialog.setIndeterminate(false);
+            progressDialog.show(); // Display Progress Dialog
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            assert strings[0] != null;
+            int len = strings[0].length();
+            generatePermutation(strings[0], 0, len);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            progressDialog.dismiss();
+        }
     }
 }

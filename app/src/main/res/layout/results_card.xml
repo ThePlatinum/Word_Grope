@@ -10,10 +10,6 @@
         android:layout_height="match_parent" >
 
         <TextView
-            xmlns:ads="http://schemas.android.com/apk/libs/com.google.ads"
-            ads:adSize="banner"
-            ads:adUnitId="ca-app-pub-3940256099942544/6300978111"
-            android:visibility="gone"
             android:id="@+id/texts_results"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

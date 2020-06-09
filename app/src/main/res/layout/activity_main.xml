@@ -20,7 +20,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
     </SearchView>
 
     <Space
@@ -117,6 +116,10 @@
         app:layout_constraintTop_toBottomOf="@id/lvMain" />
 
     <com.google.android.gms.ads.AdView
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-3940256099942544/6300978111"
+        android:visibility="gone"
         android:id="@+id/adView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

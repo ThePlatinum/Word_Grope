@@ -27,8 +27,8 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.gms.ads.AdView
-        xmlns:ads="http://schemas.android.com/apk/libs/com.google.ads"
-        ads:adSize="banner"
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
+        ads:adSize="BANNER"
         ads:adUnitId="ca-app-pub-3940256099942544/6300978111"
         android:visibility="gone"
         android:id="@+id/r_adView"

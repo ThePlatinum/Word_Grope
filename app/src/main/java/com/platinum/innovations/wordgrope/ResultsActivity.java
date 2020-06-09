@@ -78,7 +78,7 @@ public class ResultsActivity extends AppCompatActivity {
         Dataset dataset = new Dataset(str);
         mDataset.add(dataset);
 
-        Toast.makeText(this.getApplicationContext(),str,Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this.getApplicationContext(),str,Toast.LENGTH_SHORT).show();
 
             for (int i = start; i < end; i++)
             {
@@ -97,13 +97,14 @@ public class ResultsActivity extends AppCompatActivity {
 
         @Override
         protected void onPreExecute() {
-            super.onPreExecute();progressDialog = new ProgressDialog(ResultsActivity.this);
+            super.onPreExecute();
+            progressDialog = new ProgressDialog(ResultsActivity.this);
             progressDialog.setMessage("Loading..."); // Setting Message
             progressDialog.setTitle("Getting the Words..."); // Setting Title
             progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER); // Progress Dialog Style Spinner
             progressDialog.setCancelable(false);
             progressDialog.setIndeterminate(false);
-            progressDialog.show(); // Display Progress Dialog
+            //progressDialog.show(); // Display Progress Dialog
         }
 
         @Override
@@ -117,7 +118,8 @@ public class ResultsActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            progressDialog.dismiss();
+           // progressDialog.hide();
+           // progressDialog.dismiss();
         }
     }
 }

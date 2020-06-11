@@ -9,6 +9,7 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".ResultsActivity"
     tools:showIn="@layout/activity_results">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -19,23 +20,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="30sp"
+            android:textStyle="bold"
             android:gravity="start"
+            android:fontFamily="monospace"
+            android:padding="10dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
-
-        <Space
-            android:id="@+id/spacer"
-            android:layout_width="match_parent"
-            android:layout_height="10dp"
-            app:layout_constraintTop_toBottomOf="@id/searched_text" />
 
         <LinearLayout
             android:id="@+id/lvMain"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:orientation="vertical"
+            android:layout_marginTop="10dp"
             app:layout_constraintBottom_toTopOf="@+id/b_spacer"
-            app:layout_constraintTop_toBottomOf="@+id/spacer">
+            app:layout_constraintTop_toBottomOf="@+id/searched_text">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/results_recycler"

@@ -12,11 +12,11 @@ import java.util.List;
 
 class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.ViewHolder> {
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
         private TextView textView;
 
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
             textView = itemView.findViewById(R.id.results_recycler);
         }
@@ -24,7 +24,7 @@ class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.ViewHolder> {
 
     private List<Dataset> mDataset;
 
-    public ResultsAdapter(List<Dataset> mDataset) {
+    ResultsAdapter(List<Dataset> mDataset) {
         this.mDataset = mDataset;
     }
 
@@ -32,7 +32,7 @@ class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.ViewHolder> {
     @Override
     public ResultsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View v = (View)LayoutInflater.from(parent.getContext()).inflate(R.layout.results_card,parent,false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.results_card,parent,false);
 
         return new ViewHolder(v);
     }

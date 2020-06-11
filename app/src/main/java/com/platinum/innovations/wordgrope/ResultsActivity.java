@@ -14,15 +14,22 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class ResultsActivity extends AppCompatActivity {
 
-    List<Dataset> dataset = new ArrayList<>();
+    List<Dataset> mDataset = new ArrayList<>();
     ProgressDialog progressDialog;
+    FloatingActionButton fab;
     TextView textView;
     String searched;
+    DBHelper searchDB;
+    int numberOfResults;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,36 +37,41 @@ public class ResultsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_results);
 
         textView = findViewById(R.id.searched_text);
-        RecyclerView recyclerView = findViewById(R.id.results_recycler);
 
+        //Get what was searched
         searched = getIntent().getStringExtra("SearchedText");
         textView.setText(searched);
 
+        //Get date and time
+        String current_date = get_Date();
+
+        //Using AsyncTask to load the results and show progressBar while it is loading
         AsyncTaskUsed asyncTask = new AsyncTaskUsed();
         asyncTask.execute(searched);
 
-        recyclerView.setHasFixedSize(true);
+        //Save search to data base
+        numberOfResults = mDataset.size();
+        searchDB.insertSearched(searched, java.sql.Date.valueOf(current_date),numberOfResults);
 
+
+        RecyclerView recyclerView = findViewById(R.id.results_recycler);
+        recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-
-        RecyclerView.Adapter mAdapter = new ResultsAdapter(dataset);
+        RecyclerView.Adapter mAdapter = new ResultsAdapter(mDataset);
         mAdapter.notifyDataSetChanged();
         recyclerView.setAdapter(mAdapter);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
+        fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+
             }
         });
     }
 
-    //Function for swapping the characters at position I with character at position j
-
-    List<Dataset> mDataset = new ArrayList<>();
+    //Function for swapping the characters at position i with character at position j
 
     private static String swapString(String a, int i, int j) {
         char[] b =a.toCharArray();
@@ -73,12 +85,13 @@ public class ResultsActivity extends AppCompatActivity {
     //Function for generating different permutations of the string
     void generatePermutation(String str, int start, int end)
     {
-        //Prints the permutations
-        Dataset dataset = new Dataset(str);
-        mDataset.add(dataset);
 
-//        Toast.makeText(this.getApplicationContext(),str,Toast.LENGTH_SHORT).show();
-
+        if (start == end-1) {
+            Dataset dataset = new Dataset(str);
+            mDataset.add(dataset);
+        }
+        else
+        {
             for (int i = start; i < end; i++)
             {
                 //Swapping the string by fixing a character
@@ -88,6 +101,7 @@ public class ResultsActivity extends AppCompatActivity {
                 //Backtracking and swapping the characters again.
                 str = swapString(str,start,i);
             }
+        }
 
     }
     @SuppressLint("StaticFieldLeak")
@@ -121,4 +135,10 @@ public class ResultsActivity extends AppCompatActivity {
            // progressDialog.dismiss();
         }
     }
+
+
+    private String get_Date(){
+        return DateFormat.getDateInstance().format(new Date());
+    }
+
 }

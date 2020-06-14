@@ -9,7 +9,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
-import java.sql.Date;
 
 public class DBHelper extends SQLiteOpenHelper {
 
@@ -45,20 +44,20 @@ public class DBHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    void insertSearched(String word, Date date, Integer results) {
+    void insertSearched(String word, String date, Integer results) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("word", word);
-        contentValues.put("date", String.valueOf(date));
+        contentValues.put("date", date);
         contentValues.put("results", results);
         db.insert("SEARCHED", null, contentValues);
     }
 
-    public boolean insertFavourite (String word, Date date, Integer results) {
+    public boolean insertFavourite (String word, String date, Integer results) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("word", word);
-        contentValues.put("date", String.valueOf(date));
+        contentValues.put("date", date);
         contentValues.put("results", results);
         db.insert("FAVOURITES", null, contentValues);
         return true;
@@ -84,11 +83,11 @@ public class DBHelper extends SQLiteOpenHelper {
         return (int) DatabaseUtils.queryNumEntries(db, TABLE_NAME_FAVOURITES);
     }
 
-    public boolean update (Integer id, String word, Date date, Integer results, Boolean favourite) {
+    public boolean update (Integer id, String word, String date, Integer results, Boolean favourite) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("word", word);
-        contentValues.put("date", String.valueOf(date));
+        contentValues.put("date", date);
         contentValues.put("results", results);
         db.update("SEARCHED", contentValues, "id = ? ", new String[] { Integer.toString(id) } );
         return true;

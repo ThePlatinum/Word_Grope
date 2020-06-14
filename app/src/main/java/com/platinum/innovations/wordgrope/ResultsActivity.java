@@ -12,12 +12,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -51,8 +48,7 @@ public class ResultsActivity extends AppCompatActivity {
 
         //Save search to data base
         numberOfResults = mDataset.size();
-        searchDB.insertSearched(searched, java.sql.Date.valueOf(current_date),numberOfResults);
-
+        searchDB.insertSearched(searched, current_date, numberOfResults);
 
         RecyclerView recyclerView = findViewById(R.id.results_recycler);
         recyclerView.setHasFixedSize(true);
@@ -69,6 +65,17 @@ public class ResultsActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        progressDialog.dismiss();
     }
 
     //Function for swapping the characters at position i with character at position j

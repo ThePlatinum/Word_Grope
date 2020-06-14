@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
         searchView = findViewById(R.id.search);
 
-        loadLists();
+        //loadLists();
 
         //Ads Related
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
@@ -49,8 +49,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         mAdView = findViewById(R.id.adView);
-        mAdView.setAdSize(AdSize.BANNER);
-        mAdView.setAdUnitId("ca-app-pub-3940256099942544/6300978111");
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
         mAdView.setVisibility(View.VISIBLE);

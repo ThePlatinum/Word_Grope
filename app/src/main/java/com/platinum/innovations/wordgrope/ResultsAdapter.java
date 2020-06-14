@@ -13,8 +13,8 @@ import java.util.List;
 class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.ViewHolder> {
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        // each data item is just a string in this case
-        private TextView textView;
+
+        TextView textView;
 
         ViewHolder(View itemView) {
             super(itemView);

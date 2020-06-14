@@ -33,6 +33,8 @@ public class ResultsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_results);
 
+        searchDB = new DBHelper(this);
+
         textView = findViewById(R.id.searched_text);
 
         //Get what was searched

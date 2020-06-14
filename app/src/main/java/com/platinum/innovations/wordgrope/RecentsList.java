@@ -43,8 +43,8 @@ class RecentsList extends RecyclerView.Adapter<RecentsList.ViewHolder> {
     public void onBindViewHolder(ViewHolder holder, int position) {
         Recents mRecents = recents.get(position);
         holder.Word.setText(mRecents.getWord());
-        holder.Word.setText(mRecents.getDate());
-        holder.Word.setText(mRecents.getN_Words());
+        holder.Date.setText(mRecents.getDate());
+        holder.N_Results.setText(String.valueOf(mRecents.getN_Words()));
     }
     @Override
     public int getItemCount() {

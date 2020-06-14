@@ -37,10 +37,11 @@ public class MainActivity extends AppCompatActivity {
         //View view = bindingMain.getRoot();
 
         setContentView(R.layout.activity_main);
+        dbHelper = new DBHelper(this);
 
         searchView = findViewById(R.id.search);
 
-        //loadLists();
+        loadLists();
 
         //Ads Related
         MobileAds.initialize(this, new OnInitializationCompleteListener() {

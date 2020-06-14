@@ -33,12 +33,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //bindingMain = ResultProfileBinding.inflate(getLayoutInflater());
-        //View view = bindingMain.getRoot();
-
         setContentView(R.layout.activity_main);
         dbHelper = new DBHelper(this);
-
         searchView = findViewById(R.id.search);
 
         loadLists();

@@ -14,11 +14,11 @@ class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.ViewHolder> {
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView textView;
+        TextView wordV;
 
         ViewHolder(View itemView) {
             super(itemView);
-            textView = itemView.findViewById(R.id.results_recycler);
+            wordV = itemView.findViewById(R.id.texts_results);
         }
     }
 
@@ -40,7 +40,7 @@ class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Dataset dataset = mDataset.get(position);
-        holder.textView.setText(dataset.getmWord());
+        holder.wordV.setText(dataset.getmWord());
     }
 
     @Override

@@ -20,7 +20,7 @@
             android:id="@+id/searched_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="45sp"
+            android:textSize="30sp"
             android:textStyle="bold"
             android:gravity="start"
             android:fontFamily="monospace"
@@ -48,7 +48,7 @@
         <Space
             android:id="@+id/b_spacer"
             android:layout_width="match_parent"
-            android:layout_height="5dp"
+            android:layout_height="2dp"
             app:layout_constraintBottom_toBottomOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

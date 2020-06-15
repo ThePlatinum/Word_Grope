@@ -41,6 +41,8 @@ public class ResultsActivity extends AppCompatActivity {
         searchDB = new DBHelper(this);
         textView = findViewById(R.id.searched_text);
 
+        numberOfResults = 0;
+
         //Ads Related
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
             @Override
@@ -64,7 +66,6 @@ public class ResultsActivity extends AppCompatActivity {
         asyncTask.execute(searched);
 
         //Save search to data base
-        numberOfResults = mDataset.size();
         searchDB.insertSearched(searched, current_date, numberOfResults);
 
         RecyclerView recyclerView = findViewById(R.id.results_recycler);
@@ -87,6 +88,7 @@ public class ResultsActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
+        progressDialog.dismiss();
     }
 
     @Override
@@ -113,6 +115,7 @@ public class ResultsActivity extends AppCompatActivity {
         if (start == end-1) {
             Dataset dataset = new Dataset(str);
             mDataset.add(dataset);
+            numberOfResults = numberOfResults + 1;
         }
         else
         {
@@ -141,7 +144,7 @@ public class ResultsActivity extends AppCompatActivity {
             progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER); // Progress Dialog Style Spinner
             progressDialog.setCancelable(false);
             progressDialog.setIndeterminate(false);
-            //progressDialog.show(); // Display Progress Dialog
+            progressDialog.show(); // Display Progress Dialog
         }
 
         @Override
@@ -155,8 +158,8 @@ public class ResultsActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-           // progressDialog.hide();
-           // progressDialog.dismiss();
+            progressDialog.hide();
+            progressDialog.dismiss();
         }
     }
 

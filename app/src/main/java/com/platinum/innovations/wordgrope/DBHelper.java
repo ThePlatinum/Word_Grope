@@ -3,7 +3,6 @@ package com.platinum.innovations.wordgrope;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -13,14 +12,9 @@ import androidx.annotation.Nullable;
 public class DBHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "WordGropeDB.db";
-    private static final String TABLE_NAME_SEARCHED = "SEARCHED";
     private static final String TABLE_NAME_FAVOURITES = "FAVOURITES";
-    public static final String COLUMN_ID = "id";
-    public static final String COLUMN_WORD = "word";
-    public static final String COLUMN_DATE = "date";
-    public static final String COLUMN_N_RESULTS = "results";
 
-    public DBHelper(@Nullable Context context) {
+    DBHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, 1);
     }
 
@@ -53,52 +47,21 @@ public class DBHelper extends SQLiteOpenHelper {
         db.insert("SEARCHED", null, contentValues);
     }
 
-    public boolean insertFavourite (String word, String date, Integer results) {
+    void insertFavourite(String word, String date, Integer results) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("word", word);
         contentValues.put("date", date);
         contentValues.put("results", results);
         db.insert("FAVOURITES", null, contentValues);
-        return true;
     }
 
-    public Cursor getDataSearched(int id) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        return db.rawQuery( "select * from SEARCHED where id="+id+"", null );
-    }
-
-    public Cursor getDataFavoutite(int id) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        return db.rawQuery( "select * from FAVOURITES where id="+id+"", null );
-    }
-
-    public int numberOfRowsSearched(){
-        SQLiteDatabase db = this.getReadableDatabase();
-        return (int) DatabaseUtils.queryNumEntries(db, TABLE_NAME_SEARCHED);
-    }
-
-    public int numberOfRowsFavourite(){
-        SQLiteDatabase db = this.getReadableDatabase();
-        return (int) DatabaseUtils.queryNumEntries(db, TABLE_NAME_FAVOURITES);
-    }
-
-    public boolean update (Integer id, String word, String date, Integer results, Boolean favourite) {
+    void delete(String id)
+    {
         SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put("word", word);
-        contentValues.put("date", date);
-        contentValues.put("results", results);
-        db.update("SEARCHED", contentValues, "id = ? ", new String[] { Integer.toString(id) } );
-        return true;
+        db.delete(TABLE_NAME_FAVOURITES, "word = ?", new String[]{id});
     }
 
-    public Integer delete (Integer id) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        return db.delete("SEARCHED",
-                "id = ? ",
-                new String[] { Integer.toString(id) });
-    }
 
     Cursor getAllSearched(){
         SQLiteDatabase db = this.getReadableDatabase();
@@ -119,5 +82,27 @@ public class DBHelper extends SQLiteOpenHelper {
         super.onOpen(db);
     }
 
+    Cursor getLimitFavourites() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("select * from FAVOURITES LIMIT 6", null );
+        res.moveToFirst();
+        return res;
+    }
+
+    boolean isFieldExist(String fieldName)
+    {
+        boolean isExist = false;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor res = db.rawQuery("PRAGMA table_info("+TABLE_NAME_FAVOURITES+")",null);
+        res.moveToFirst();
+        do {
+            String currentColumn = res.getString(1);
+            if (currentColumn.equals(fieldName)) {
+                isExist = true;
+            }
+        } while (res.moveToNext());
+        res.close();
+        return isExist;
+    }
 }
 

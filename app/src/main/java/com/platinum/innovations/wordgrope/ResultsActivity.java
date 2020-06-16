@@ -29,7 +29,7 @@ public class ResultsActivity extends AppCompatActivity {
     ProgressDialog progressDialog;
     FloatingActionButton fab;
     TextView textView;
-    String searched;
+    String searched, current_date;
     DBHelper searchDB;
     int numberOfResults;
     AdView mAdView;
@@ -59,7 +59,7 @@ public class ResultsActivity extends AppCompatActivity {
         textView.setText(searched);
 
         //Get date and time
-        String current_date = get_Date();
+        current_date = get_Date();
 
         //Using AsyncTask to load the results and show progressBar while it is loading
         AsyncTaskUsed asyncTask = new AsyncTaskUsed();
@@ -80,7 +80,14 @@ public class ResultsActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                if(searchDB.isFieldExist(searched)){
+                    searchDB.delete(searched);
+                    fab.setImageResource(R.drawable.star_off_foreground);
+                }
+                else{
+                    searchDB.insertFavourite(searched, current_date, numberOfResults);
+                    fab.setImageResource(R.drawable.star_on_foreground);
+                }
             }
         });
     }

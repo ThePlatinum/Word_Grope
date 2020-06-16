@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.SearchView;
 
 import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
@@ -27,8 +26,8 @@ public class MainActivity extends AppCompatActivity {
     SearchView searchView;
     AdView mAdView;
     DBHelper dbHelper;
-    RecyclerView recent_recycler;
     List<Recents> mRecents = new ArrayList<>();
+    RecyclerView recent_recycler , favourites_recycler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +36,8 @@ public class MainActivity extends AppCompatActivity {
         dbHelper = new DBHelper(this);
         searchView = findViewById(R.id.search);
 
-        loadLists();
+        loadListsRecents();
+        loadListsFavourites();
 
         //Ads Related
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 Intent i = new Intent(MainActivity.this, ResultsActivity.class);
+                query = query.replaceAll("\\s","");
                 i.putExtra("SearchedText",query);
                 startActivity(i);
                 return false;
@@ -68,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void loadLists() {
+    private void loadListsRecents() {
         Cursor cursor = dbHelper.getAllSearched();
         if (cursor != null) {
             cursor.moveToFirst();
@@ -87,6 +88,34 @@ public class MainActivity extends AppCompatActivity {
         dbHelper.close();
 
         recent_recycler = findViewById(R.id.recycler_recent);
+        recent_recycler.setHasFixedSize(true);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        recent_recycler.setLayoutManager(mLayoutManager);
+
+        RecyclerView.Adapter mAdapter = new RecentsList(mRecents);
+        mAdapter.notifyDataSetChanged();
+        recent_recycler.setAdapter(mAdapter);
+    }
+
+    private void loadListsFavourites() {
+        Cursor cursor = dbHelper.getLimitFavourites();
+        if (cursor != null) {
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                String word = cursor.getString(cursor.getColumnIndex("word"));
+                String date = cursor.getString(cursor.getColumnIndex("date"));
+                int n_results = cursor.getInt(cursor.getColumnIndex("results"));
+
+                Recents recents = new Recents(word, date, n_results);
+                mRecents.add(recents);
+
+                cursor.moveToNext();
+            }
+            cursor.close();
+        }
+        dbHelper.close();
+
+        favourites_recycler = findViewById(R.id.recycler_favourite);
         recent_recycler.setHasFixedSize(true);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recent_recycler.setLayoutManager(mLayoutManager);

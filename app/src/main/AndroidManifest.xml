@@ -1,45 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.platinum.innovations.wordgrope">
+    package="com.platinum.innovations.wordgrope" >
 
- <application
-     android:allowBackup="true"
-     android:icon="@mipmap/ic_launcher"
-     android:label="@string/app_name"
-     android:resizeableActivity="false"
-     android:roundIcon="@mipmap/ic_launcher_round"
-     android:supportsRtl="true"
-     android:theme="@style/AppTheme.NoActionBar"
-     tools:targetApi="n"
-     android:fullBackupContent="@xml/backup_descriptor">
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
-  <!-- Sample AdMob App ID: ca-app-pub-3940256099942544~3347511713 -->
-  <meta-data
-      android:name="com.google.android.gms.ads.APPLICATION_ID"
-      android:value="ca-app-pub-3985289401106276~1569607789"/>
+    <application
+        android:allowBackup="true"
+        android:fullBackupContent="@xml/backup_descriptor"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:resizeableActivity="false"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme.NoActionBar"
+        tools:targetApi="n" >
 
-  <activity android:name=".Splash">
-   <intent-filter>
-    <action android:name="android.intent.action.MAIN" />
-    <action android:name="android.intent.action.VIEW" />
+        <activity android:name=".AllFavouriteActivity"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.platinum.innovations.wordgrope.MainActivity" />
+        </activity>
+        <!-- Sample AdMob App ID: ca-app-pub-3940256099942544~3347511713 -->
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-3985289401106276~1569607789" />
 
-    <category android:name="android.intent.category.LAUNCHER" />
-   </intent-filter>
-  </activity>
+        <activity android:name=".Splash" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
 
-  <activity android:name=".MainActivity" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
-  <activity
-      android:name=".ResultsActivity"
-      android:label="@string/title_activity_results"
-      android:parentActivityName=".MainActivity"
-      android:theme="@style/AppTheme.NoActionBar">
-   <meta-data
-       android:name="android.support.PARENT_ACTIVITY"
-       android:value="com.platinum.innovations.wordgrope.MainActivity" />
-  </activity>
- </application>
- <uses-permission android:name="android.permission.INTERNET" />
- <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+        <activity android:name=".MainActivity" />
+
+        <activity
+            android:name=".ResultsActivity"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.platinum.innovations.wordgrope.MainActivity" />
+        </activity>
+    </application>
+
 </manifest>

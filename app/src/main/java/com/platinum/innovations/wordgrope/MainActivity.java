@@ -27,7 +27,8 @@ public class MainActivity extends AppCompatActivity {
     AdView mAdView;
     DBHelper dbHelper;
     List<Recents> mRecents = new ArrayList<>();
-    RecyclerView recent_recycler , favourites_recycler;
+    RecyclerView recent_recycler ;
+    RecyclerView favourites_recycler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +69,13 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        loadListsRecents();
+        loadListsFavourites();
+    }
 
     private void loadListsRecents() {
         Cursor cursor = dbHelper.getAllSearched();
@@ -120,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recent_recycler.setLayoutManager(mLayoutManager);
 
-        RecyclerView.Adapter mAdapter = new RecentsList(mRecents);
+        RecyclerView.Adapter mAdapter =  new FavouritesList(mRecents);
         mAdapter.notifyDataSetChanged();
         recent_recycler.setAdapter(mAdapter);
     }

@@ -20,23 +20,35 @@
             android:id="@+id/searched_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="30sp"
+            android:textSize="35sp"
             android:textStyle="bold"
+            android:text="resume"
             android:gravity="start"
+            android:textAllCaps="true"
             android:fontFamily="monospace"
-            android:layout_margin="10dp"
+            android:layout_margin="5dp"
             android:textColor="@color/pureBlack"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+        <TextView
+            android:id="@+id/res_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:gravity="end"
+            android:fontFamily="monospace"
+            android:textColor="@color/pureBlack"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/searched_text" />
 
         <LinearLayout
             android:id="@+id/lvMain"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:orientation="vertical"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="2dp"
             app:layout_constraintBottom_toTopOf="@+id/b_spacer"
-            app:layout_constraintTop_toBottomOf="@+id/searched_text">
+            app:layout_constraintTop_toBottomOf="@+id/res_text">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/results_recycler"
@@ -48,7 +60,7 @@
         <Space
             android:id="@+id/b_spacer"
             android:layout_width="match_parent"
-            android:layout_height="2dp"
+            android:layout_height="1dp"
             app:layout_constraintBottom_toBottomOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

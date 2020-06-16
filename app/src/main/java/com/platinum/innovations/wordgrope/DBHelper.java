@@ -62,7 +62,6 @@ public class DBHelper extends SQLiteOpenHelper {
         db.delete(TABLE_NAME_FAVOURITES, "word = ?", new String[]{id});
     }
 
-
     Cursor getAllSearched(){
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("select * from SEARCHED", null );

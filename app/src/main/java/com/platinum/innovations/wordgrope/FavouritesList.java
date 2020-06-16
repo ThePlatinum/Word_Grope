@@ -13,7 +13,7 @@ import java.util.List;
 class FavouritesList extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final int TYPE_FOOTER = 1;
-    private static final int TYPE_ITEM = 2;
+    private static final int TYPE_ITEM = 0;
 
     public class NormalViewHolder extends RecyclerView.ViewHolder{
 

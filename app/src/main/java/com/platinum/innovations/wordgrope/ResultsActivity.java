@@ -28,7 +28,7 @@ public class ResultsActivity extends AppCompatActivity {
     List<Dataset> mDataset = new ArrayList<>();
     ProgressDialog progressDialog;
     FloatingActionButton fab;
-    TextView textView;
+    TextView textView, numberOfResultsText;
     String searched, current_date;
     DBHelper searchDB;
     int numberOfResults;
@@ -40,6 +40,7 @@ public class ResultsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_results);
         searchDB = new DBHelper(this);
         textView = findViewById(R.id.searched_text);
+        numberOfResultsText = findViewById(R.id.res_text);
 
         numberOfResults = 0;
 
@@ -57,6 +58,12 @@ public class ResultsActivity extends AppCompatActivity {
         //Get what was searched
         searched = getIntent().getStringExtra("SearchedText");
         textView.setText(searched);
+        if(searchDB.isFieldExist(searched)){
+            fab.setImageResource(R.drawable.star_off_foreground);
+        }
+        else{
+            fab.setImageResource(R.drawable.star_on_foreground);
+        }
 
         //Get date and time
         current_date = get_Date();
@@ -67,6 +74,8 @@ public class ResultsActivity extends AppCompatActivity {
 
         //Save search to data base
         searchDB.insertSearched(searched, current_date, numberOfResults);
+        String theText = numberOfResults + " Results Found";
+        numberOfResultsText.setText(theText);
 
         RecyclerView recyclerView = findViewById(R.id.results_recycler);
         recyclerView.setHasFixedSize(true);
@@ -77,6 +86,7 @@ public class ResultsActivity extends AppCompatActivity {
         recyclerView.setAdapter(nAdapter);
 
         fab = findViewById(R.id.fab);
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

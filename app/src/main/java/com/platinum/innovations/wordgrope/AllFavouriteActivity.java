@@ -64,7 +64,7 @@ public class AllFavouriteActivity extends AppCompatActivity {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         allFav.setLayoutManager(mLayoutManager);
 
-        RecyclerView.Adapter mAdapter = new RecentsList(mRecents);
+        RecyclerView.Adapter mAdapter = new FavouritesList(mRecents);
         mAdapter.notifyDataSetChanged();
         allFav.setAdapter(mAdapter);
     }

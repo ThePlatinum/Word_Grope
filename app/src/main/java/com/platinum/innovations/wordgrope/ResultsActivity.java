@@ -41,9 +41,9 @@ public class ResultsActivity extends AppCompatActivity {
         searchDB = new DBHelper(this);
         textView = findViewById(R.id.searched_text);
         numberOfResultsText = findViewById(R.id.res_text);
+        fab = findViewById(R.id.fab);
 
         numberOfResults = 0;
-
         //Ads Related
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
             @Override
@@ -59,10 +59,10 @@ public class ResultsActivity extends AppCompatActivity {
         searched = getIntent().getStringExtra("SearchedText");
         textView.setText(searched);
         if(searchDB.isFieldExist(searched)){
-            fab.setImageResource(R.drawable.star_off_foreground);
+            fab.setImageResource(R.drawable.star_on_foreground);
         }
         else{
-            fab.setImageResource(R.drawable.star_on_foreground);
+            fab.setImageResource(R.drawable.star_off_foreground);
         }
 
         //Get date and time
@@ -72,11 +72,6 @@ public class ResultsActivity extends AppCompatActivity {
         AsyncTaskUsed asyncTask = new AsyncTaskUsed();
         asyncTask.execute(searched);
 
-        //Save search to data base
-        searchDB.insertSearched(searched, current_date, numberOfResults);
-        String theText = numberOfResults + " Results Found";
-        numberOfResultsText.setText(theText);
-
         RecyclerView recyclerView = findViewById(R.id.results_recycler);
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
@@ -85,18 +80,16 @@ public class ResultsActivity extends AppCompatActivity {
         nAdapter.notifyDataSetChanged();
         recyclerView.setAdapter(nAdapter);
 
-        fab = findViewById(R.id.fab);
-
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(searchDB.isFieldExist(searched)){
                     searchDB.delete(searched);
-                    fab.setImageResource(R.drawable.star_off_foreground);
+                    fab.setImageResource(R.drawable.star_on_foreground);
                 }
                 else{
                     searchDB.insertFavourite(searched, current_date, numberOfResults);
-                    fab.setImageResource(R.drawable.star_on_foreground);
+                    fab.setImageResource(R.drawable.star_off_foreground);
                 }
             }
         });
@@ -106,12 +99,14 @@ public class ResultsActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         progressDialog.dismiss();
+        searchDB.close();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         progressDialog.dismiss();
+        searchDB.close();
     }
 
     //Function for swapping the characters at position i with character at position j
@@ -175,6 +170,11 @@ public class ResultsActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            //Save search to data base
+            searchDB.insertSearched(searched, current_date,numberOfResults);
+            String theText = numberOfResults + " Results Found";
+            numberOfResultsText.setText(theText);
+
             progressDialog.hide();
             progressDialog.dismiss();
         }

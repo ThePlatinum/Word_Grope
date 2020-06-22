@@ -21,7 +21,7 @@ public class AllFavouriteActivity extends AppCompatActivity {
 
     RecyclerView allFav;
     DBHelper dbHelper;
-    List<Recents> mRecents = new ArrayList<>();
+    List<Favourites> mFavourites = new ArrayList<>();
     AdView mAdView;
 
     @Override
@@ -51,8 +51,8 @@ public class AllFavouriteActivity extends AppCompatActivity {
                 String date = cursor.getString(cursor.getColumnIndex("date"));
                 int n_results = cursor.getInt(cursor.getColumnIndex("results"));
 
-                Recents recents = new Recents(word, date, n_results);
-                mRecents.add(recents);
+                Favourites favourites = new Favourites(word, date, n_results);
+                mFavourites.add(favourites);
 
                 cursor.moveToNext();
             }
@@ -64,7 +64,7 @@ public class AllFavouriteActivity extends AppCompatActivity {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         allFav.setLayoutManager(mLayoutManager);
 
-        RecyclerView.Adapter mAdapter = new FavouritesList(mRecents);
+        RecyclerView.Adapter mAdapter = new FavouritesList(mFavourites);
         mAdapter.notifyDataSetChanged();
         allFav.setAdapter(mAdapter);
     }

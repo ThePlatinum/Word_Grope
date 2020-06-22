@@ -1,5 +1,7 @@
 package com.platinum.innovations.wordgrope;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,18 +14,28 @@ import java.util.List;
 
 class FavouritesList extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private static final int TYPE_FOOTER = 1;
     private static final int TYPE_ITEM = 0;
+    private static final int TYPE_FOOTER = 1;
 
     public class NormalViewHolder extends RecyclerView.ViewHolder{
 
         TextView Word, Date , N_Results ;
-
         NormalViewHolder(View itemView) {
             super(itemView);
             Word = itemView.findViewById(R.id.textWord);
             Date = itemView.findViewById(R.id.dateText);
             N_Results = itemView.findViewById(R.id.number_results);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String click_identifier =  Word.getText().toString();
+                    Context context = v.getContext();
+                    Intent i = new Intent(context, ResultsActivity.class);
+                    i.putExtra("SearchedText",click_identifier);
+                    context.startActivity(i);
+                }
+            });
         }
     }
 
@@ -33,18 +45,27 @@ class FavouritesList extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         FooterViewHolder(View view) {
             super(view);
             footerText = view.findViewById(R.id.footer_text);
+
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Context context = v.getContext();
+                    Intent i = new Intent(context, AllFavouriteActivity.class);
+                    context.startActivity(i);
+                }
+            });
         }
     }
 
-    private List<Recents> recents;
+    private List<Favourites> favs;
 
-    FavouritesList(List<Recents> recents) {
-        this.recents = recents;
+    FavouritesList(List<Favourites> favs) {
+        this.favs = favs;
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (position == recents.size() + 1) {
+        if (position == 7) {
             return TYPE_FOOTER;
         }
         return TYPE_ITEM;
@@ -67,22 +88,20 @@ class FavouritesList extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-
         if (holder instanceof NormalViewHolder) {
             NormalViewHolder NormalHolder = (NormalViewHolder) holder;
-            Recents mRecents = recents.get(position);
-            NormalHolder.Word.setText(mRecents.getWord());
-            NormalHolder.Date.setText(mRecents.getDate());
-            NormalHolder.N_Results.setText(String.valueOf(mRecents.getN_Words()));
+            Favourites mFavs = favs.get(position);
+            NormalHolder.Word.setText(mFavs.getWord());
+            NormalHolder.Date.setText(mFavs.getDate());
+            NormalHolder.N_Results.setText(String.valueOf(mFavs.getN_Words()));
         }
         else if (holder instanceof FooterViewHolder) {
             FooterViewHolder itemViewHolder = (FooterViewHolder) holder;
             itemViewHolder.footerText.getText();
         }
-
     }
     @Override
     public int getItemCount() {
-        return recents.size()+1;
+        return favs.size();
     }
 }

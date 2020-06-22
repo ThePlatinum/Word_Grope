@@ -90,18 +90,12 @@ public class DBHelper extends SQLiteOpenHelper {
 
     boolean isFieldExist(String fieldName)
     {
-        boolean isExist = false;
+        boolean isExist = true;
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor res = db.rawQuery("PRAGMA table_info("+TABLE_NAME_FAVOURITES+")",null);
-        res.moveToFirst();
-        do {
-            String currentColumn = res.getString(1);
-            if (currentColumn.equals(fieldName)) {
-                isExist = true;
-            }
-        } while (res.moveToNext());
-        res.close();
+        Cursor res = db.rawQuery("SELECT * FROM FAVOURITES WHERE EXISTS (SELECT * WHERE word = "+fieldName+")",null);
+        if (res.getColumnCount() == 0) {
+            isExist = false;
+        }
         return isExist;
     }
 }
-

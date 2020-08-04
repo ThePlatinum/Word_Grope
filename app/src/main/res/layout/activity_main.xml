@@ -77,7 +77,6 @@
     <com.google.android.gms.ads.AdView
         xmlns:ads="http://schemas.android.com/apk/res-auto"
         ads:adSize="BANNER"
-        android:visibility="gone"
         ads:adUnitId="ca-app-pub-3985289401106276/1748258103"
         android:id="@+id/adView"
         android:layout_width="match_parent"

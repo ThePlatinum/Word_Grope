@@ -46,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
         AdView mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
-        mAdView.setVisibility(View.VISIBLE);
 
         //Searching
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -72,6 +71,18 @@ public class MainActivity extends AppCompatActivity {
 
         loadListsRecents();
         loadListsFavourites();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        dbHelper.close();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        dbHelper.close();
     }
 
     private void loadListsRecents() {

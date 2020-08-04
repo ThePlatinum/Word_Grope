@@ -38,6 +38,7 @@ public class ResultsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_results);
+
         searchDB = new DBHelper(this);
         textView = findViewById(R.id.searched_text);
         numberOfResultsText = findViewById(R.id.res_text);
@@ -53,11 +54,11 @@ public class ResultsActivity extends AppCompatActivity {
         mAdView = findViewById(R.id.r_adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
-        mAdView.setVisibility(View.VISIBLE);
 
         //Get what was searched
         searched = getIntent().getStringExtra("SearchedText");
         textView.setText(searched);
+
         if(searchDB.isFieldExist(searched)){
             fab.setImageResource(R.drawable.star_on_foreground);
         }

@@ -11,8 +11,9 @@ import androidx.annotation.Nullable;
 
 public class DBHelper extends SQLiteOpenHelper {
 
-    private static final String DATABASE_NAME = "WordGropeDB.db";
+    private static final String DATABASE_NAME = "WordGropeDB";
     private static final String TABLE_NAME_FAVOURITES = "FAVOURITES";
+    private static final String TABLE_NAME_SEARCHED = "SEARCHED";
 
     DBHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, 1);
@@ -34,6 +35,8 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS SEARCHED");
+        onCreate(db);
+
         db.execSQL("DROP TABLE IF EXISTS FAVOURITES");
         onCreate(db);
     }
@@ -56,10 +59,12 @@ public class DBHelper extends SQLiteOpenHelper {
         db.insert("FAVOURITES", null, contentValues);
     }
 
-    void delete(String id)
+   boolean delete(String id)
     {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_NAME_FAVOURITES, "word = ?", new String[]{id});
+
+        return true;
     }
 
     Cursor getAllSearched(){
@@ -88,10 +93,23 @@ public class DBHelper extends SQLiteOpenHelper {
         return res;
     }
 
-    public boolean isFieldExist(String fieldName){
-        Boolean True = false;
+    boolean isFieldExist(String fieldName){
+        boolean True = false;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("select * from FAVOURITES where word = '" +fieldName+"'" , null );
+        cursor.moveToFirst();
+        if(cursor.getCount() < 1){
+            True = true;
+        }
+        cursor.close();
+        return True;
+    }
+
+
+    boolean isExist(String fieldName){
+        boolean True = false;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select * from SEARCHED where word = '" +fieldName+"'" , null );
         cursor.moveToFirst();
         if(cursor.getCount() < 1){
             True = true;

@@ -23,11 +23,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+
 public class ResultsActivity extends AppCompatActivity {
 
     List<Dataset> mDataset = new ArrayList<>();
     ProgressDialog progressDialog;
-    FloatingActionButton fab;
     TextView textView, numberOfResultsText;
     String searched, current_date;
     DBHelper searchDB;
@@ -42,7 +42,7 @@ public class ResultsActivity extends AppCompatActivity {
         searchDB = new DBHelper(this);
         textView = findViewById(R.id.searched_text);
         numberOfResultsText = findViewById(R.id.res_text);
-        fab = findViewById(R.id.fab);
+        final FloatingActionButton fab = findViewById(R.id.fab);
 
         numberOfResults = 0;
         //Ads Related
@@ -59,11 +59,12 @@ public class ResultsActivity extends AppCompatActivity {
         searched = getIntent().getStringExtra("SearchedText");
         textView.setText(searched);
 
+        //Decide what to show on FAB
         if(searchDB.isFieldExist(searched)){
-            fab.setImageResource(R.drawable.star_on_foreground);
+            fab.setImageResource(R.drawable.star_off_foreground);
         }
         else{
-            fab.setImageResource(R.drawable.star_off_foreground);
+            fab.setImageResource(R.drawable.star_on_foreground);
         }
 
         //Get date and time
@@ -85,11 +86,11 @@ public class ResultsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(searchDB.isFieldExist(searched)){
-                    searchDB.delete(searched);
+                    searchDB.insertFavourite(searched, current_date, numberOfResults);
                     fab.setImageResource(R.drawable.star_on_foreground);
                 }
                 else{
-                    searchDB.insertFavourite(searched, current_date, numberOfResults);
+                    searchDB.delete(searched);
                     fab.setImageResource(R.drawable.star_off_foreground);
                 }
             }
@@ -144,6 +145,7 @@ public class ResultsActivity extends AppCompatActivity {
         }
 
     }
+
     @SuppressLint("StaticFieldLeak")
     private class AsyncTaskUsed extends AsyncTask<String, String, String> {
 
@@ -153,7 +155,7 @@ public class ResultsActivity extends AppCompatActivity {
             super.onPreExecute();
             progressDialog = new ProgressDialog(ResultsActivity.this);
             progressDialog.setMessage("Loading..."); // Setting Message
-            progressDialog.setTitle("Getting the Words..."); // Setting Title
+            progressDialog.setTitle("Getting the Words... Wait a moment"); // Setting Title
             progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER); // Progress Dialog Style Spinner
             progressDialog.setCancelable(false);
             progressDialog.setIndeterminate(false);
@@ -172,7 +174,9 @@ public class ResultsActivity extends AppCompatActivity {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             //Save search to data base
-            searchDB.insertSearched(searched, current_date,numberOfResults);
+            if(searchDB.isExist(searched)){
+                searchDB.insertSearched(searched, current_date,numberOfResults);
+            }
             String theText = numberOfResults + " Results Found";
             numberOfResultsText.setText(theText);
 

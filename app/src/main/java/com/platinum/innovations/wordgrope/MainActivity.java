@@ -1,14 +1,13 @@
 package com.platinum.innovations.wordgrope;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.SearchView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -32,10 +31,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        searchView = findViewById(R.id.search);
 
-        loadListsRecents();
-        loadListsFavourites();
+        searchView = findViewById(R.id.search);
+        AdView mAdView = findViewById(R.id.adView);
 
         //Ads Related
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
@@ -43,9 +41,11 @@ public class MainActivity extends AppCompatActivity {
             public void onInitializationComplete(InitializationStatus initializationStatus) {
             }
         });
-        AdView mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
+
+        loadListsFavourites();
+        loadListsRecents();
 
         //Searching
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -57,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(i);
                 return false;
             }
-
             @Override
             public boolean onQueryTextChange(String newText) {
                 return false;
@@ -69,8 +68,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        loadListsRecents();
         loadListsFavourites();
+        loadListsRecents();
     }
 
     @Override
@@ -108,9 +107,9 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recent_recycler.setLayoutManager(mLayoutManager);
 
-        RecyclerView.Adapter mAdapter = new RecentsList(mRecents);
-        mAdapter.notifyDataSetChanged();
-        recent_recycler.setAdapter(mAdapter);
+        RecyclerView.Adapter sAdapter = new RecentsList(mRecents);
+        sAdapter.notifyDataSetChanged();
+        recent_recycler.setAdapter(sAdapter);
     }
 
     private void loadListsFavourites() {

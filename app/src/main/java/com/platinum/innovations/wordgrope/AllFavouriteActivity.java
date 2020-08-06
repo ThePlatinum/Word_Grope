@@ -1,12 +1,11 @@
 package com.platinum.innovations.wordgrope;
 
+import android.database.Cursor;
+import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.database.Cursor;
-import android.os.Bundle;
-import android.view.View;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -41,7 +40,6 @@ public class AllFavouriteActivity extends AppCompatActivity {
         mAdView = findViewById(R.id.f_adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
-        mAdView.setVisibility(View.VISIBLE);
 
         Cursor cursor = dbHelper.getAllFavourites();
         if (cursor != null) {
